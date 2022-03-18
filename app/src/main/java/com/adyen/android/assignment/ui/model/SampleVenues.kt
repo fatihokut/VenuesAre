@@ -2,6 +2,7 @@ package com.adyen.android.assignment.ui.model
 
 class SampleVenues {
 
+    // Dummy list of venues for testing
     fun initVenueList(): ArrayList<Venue> {
         return arrayListOf(
             Venue(

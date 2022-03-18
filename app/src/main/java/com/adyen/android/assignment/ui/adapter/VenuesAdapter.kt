@@ -19,10 +19,10 @@ class VenuesAdapter(private val venueList: ArrayList<Venue>) :
         venueFilterList = venueList
     }
 
-    // Filter by venue name for now. It'll be category name eventually
+    // TODO: Filter by venue name for now. It'll be category name eventually
     override fun getFilter(): Filter {
         return object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): Filter.FilterResults {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charSearch = constraint.toString()
                 if (charSearch.isEmpty()) {
                     venueFilterList = venueList
@@ -37,14 +37,14 @@ class VenuesAdapter(private val venueList: ArrayList<Venue>) :
                     }
                     venueFilterList = resultList
                 }
-                val filterResults = Filter.FilterResults()
+                val filterResults = FilterResults()
                 filterResults.values = venueFilterList
                 return filterResults
             }
 
             @SuppressLint("NotifyDataSetChanged")
             @Suppress("UNCHECKED_CAST")
-            override fun publishResults(constraint: CharSequence?, results: Filter.FilterResults?) {
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 venueFilterList = results?.values as ArrayList<Venue>
                 notifyDataSetChanged()
             }
@@ -54,7 +54,6 @@ class VenuesAdapter(private val venueList: ArrayList<Venue>) :
 
     inner class ViewHolder(val binding: VenueItemBinding) : RecyclerView.ViewHolder(binding.root)
 
-    // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             VenueItemBinding.inflate(
@@ -65,19 +64,15 @@ class VenuesAdapter(private val venueList: ArrayList<Venue>) :
         )
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
         viewHolder.binding.apply {
-            locationName.text = venueFilterList[position].name
-            locationCategory.text = venueFilterList[position].categoryId.toString()
-            locationDistance.text = venueFilterList[position].distance.toString()
+            venueName.text = venueFilterList[position].name
+            category.text = venueFilterList[position].categoryId.toString()
+            distance.text = venueFilterList[position].distance.toString()
         }
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = venueFilterList.size
 
 }
