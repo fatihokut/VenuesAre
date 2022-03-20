@@ -1,73 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true">
+<layout>
 
-    <ImageView
-        android:id="@+id/categoryImage"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/icon_circle_background"
-        android:src="@drawable/ic_baseline_house_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/venueName"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <TextView
-        android:id="@+id/venueName"
-        android:layout_width="wrap_content"
+        <variable
+            name="iconUrl"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:ellipsize="end"
-        android:lines="1"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/category"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/categoryImage"
-        app:layout_constraintTop_toTopOf="@+id/categoryImage"
-        app:layout_constraintVertical_chainStyle="spread_inside"
-        tools:text="Seattle's Best Coffee Shop" />
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
 
-    <TextView
-        android:id="@+id/category"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:ellipsize="end"
-        android:fontFamily="sans-serif-medium"
-        android:lines="1"
-        android:textColor="@color/colorSecondaryDark"
-        app:layout_constraintBottom_toTopOf="@+id/distance"
-        app:layout_constraintStart_toEndOf="@+id/categoryImage"
-        app:layout_constraintTop_toBottomOf="@+id/venueName"
-        tools:text="Coffee Shop" />
+        <ImageView
+            android:id="@+id/categoryImage"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/icon_circle_background"
+            app:categoryIcon="@{iconUrl}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/venueName"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/distance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:textColor="@color/colorSecondary"
-        app:layout_constraintBottom_toBottomOf="@+id/categoryImage"
-        app:layout_constraintStart_toEndOf="@+id/categoryImage"
-        app:layout_constraintTop_toBottomOf="@+id/category"
-        tools:text="350 meters" />
+        <TextView
+            android:id="@+id/venueName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/category"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/categoryImage"
+            app:layout_constraintTop_toTopOf="@+id/categoryImage"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            tools:text="Seattle's Best Coffee Shop" />
 
-</androidx.constraintlayout.widget.ConstraintLayout> 
+        <TextView
+            android:id="@+id/category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:lines="1"
+            android:textColor="@color/colorSecondaryDark"
+            app:layout_constraintBottom_toTopOf="@+id/distance"
+            app:layout_constraintStart_toEndOf="@+id/categoryImage"
+            app:layout_constraintTop_toBottomOf="@+id/venueName"
+            tools:text="Coffee Shop" />
+
+        <TextView
+            android:id="@+id/distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/colorSecondary"
+            app:layout_constraintBottom_toBottomOf="@+id/categoryImage"
+            app:layout_constraintStart_toEndOf="@+id/categoryImage"
+            app:layout_constraintTop_toBottomOf="@+id/category"
+            tools:text="350 meters" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

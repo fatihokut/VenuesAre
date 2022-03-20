@@ -1,41 +1,37 @@
 package com.adyen.android.assignment.ui.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.adyen.android.assignment.databinding.VenueItemBinding
 import com.adyen.android.assignment.ui.model.Venue
-import java.util.*
+import com.bumptech.glide.Glide
 
-class VenuesAdapter(private val venueList: ArrayList<Venue>) :
-    RecyclerView.Adapter<VenuesAdapter.ViewHolder>(), Filterable {
+class VenuesAdapter() :
+    ListAdapter<Venue, VenuesAdapter.ViewHolder>(DiffCallback),
+    Filterable {
 
-    var venueFilterList = ArrayList<Venue>()
+    private var venueFilterList: List<Venue> = currentList
 
-    init {
-        venueFilterList = venueList
-    }
-
-    // TODO: Filter by venue name for now. It'll be category name eventually
+    // Filters by category name
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charSearch = constraint.toString()
-                if (charSearch.isEmpty()) {
-                    venueFilterList = venueList
+                venueFilterList = if (charSearch.isEmpty()) {
+                    currentList
                 } else {
-                    val resultList = ArrayList<Venue>()
-                    for (row in venueList) {
-                        if (row.name.lowercase(Locale.ROOT)
-                                .contains(charSearch.lowercase(Locale.ROOT))
-                        ) {
-                            resultList.add(row)
-                        }
+                    currentList.filter {
+                        it.categoryName.contains(charSearch, true)
                     }
-                    venueFilterList = resultList
                 }
                 val filterResults = FilterResults()
                 filterResults.values = venueFilterList
@@ -45,7 +41,7 @@ class VenuesAdapter(private val venueList: ArrayList<Venue>) :
             @SuppressLint("NotifyDataSetChanged")
             @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                venueFilterList = results?.values as ArrayList<Venue>
+                venueFilterList = (results?.values as List<*>).filterIsInstance<Venue>()
                 notifyDataSetChanged()
             }
 
@@ -68,11 +64,41 @@ class VenuesAdapter(private val venueList: ArrayList<Venue>) :
 
         viewHolder.binding.apply {
             venueName.text = venueFilterList[position].name
-            category.text = venueFilterList[position].categoryId.toString()
+            category.text = venueFilterList[position].categoryName
             distance.text = venueFilterList[position].distance.toString()
+            loadImage(categoryImage, venueFilterList[position].iconUrl)
         }
     }
 
     override fun getItemCount() = venueFilterList.size
 
+    override fun onCurrentListChanged(
+        previousList: MutableList<Venue>,
+        currentList: MutableList<Venue>
+    ) {
+        venueFilterList = currentList
+    }
+
+    companion object {
+        @JvmStatic
+        @BindingAdapter("categoryIcon")
+        fun loadImage(view: ImageView, iconUrl: String?) {
+            Log.d("VenuesAdapter", "ICON URL = $iconUrl")
+            if (!iconUrl.isNullOrEmpty()) {
+                Glide.with(view.context)
+                    .load(iconUrl)
+                    .into(view)
+            }
+        }
+    }
+
+}
+
+object DiffCallback : DiffUtil.ItemCallback<Venue>() {
+
+    override fun areItemsTheSame(oldItem: Venue, newItem: Venue) =
+        oldItem == newItem
+
+    override fun areContentsTheSame(oldItem: Venue, newItem: Venue) =
+        oldItem.name == newItem.name
 }

@@ -18,9 +18,9 @@ interface PlacesService {
      */
     @Headers("Authorization: ${BuildConfig.API_KEY}")
     @GET("places/nearby")
-    fun getVenueRecommendations(@QueryMap query: Map<String, String>): Call<ResponseWrapper>
+    fun getVenueRecommendations(@QueryMap query: Map<String, String>): Call<ResponseWrapper> // Can be suspend?
 
-    companion object  {
+    companion object {
         private val retrofit by lazy {
             Retrofit.Builder()
                 .baseUrl(BuildConfig.FOURSQUARE_BASE_URL)
