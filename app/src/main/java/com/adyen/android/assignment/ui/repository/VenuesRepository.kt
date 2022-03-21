@@ -20,9 +20,9 @@ class VenuesRepository @Inject constructor() {
 
     val venues = MutableLiveData<ArrayList<Venue>>()
 
-    fun getVenueRecommendations() {
+    fun getVenueRecommendations(latitude: Double, longitude: Double) {
         val query = VenueRecommendationsQueryBuilder()
-            .setLatitudeLongitude(52.376510, 4.905890)
+            .setLatitudeLongitude(latitude, longitude)
             .build()
 
         PlacesService.instance.getVenueRecommendations(query).enqueue(object :
@@ -60,7 +60,7 @@ class VenuesRepository @Inject constructor() {
                         it.name,
                         it.categories[0].name,
                         it.distance,
-                        it.categories[0].icon.prefix+"64"+it.categories[0].icon.suffix
+                        it.categories[0].icon.prefix + "64" + it.categories[0].icon.suffix
                     )
                 )
             }

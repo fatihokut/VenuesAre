@@ -18,9 +18,9 @@ class VenuesViewModel @Inject internal constructor(
     private val _venues: MutableLiveData<ArrayList<Venue>> = repository.venues
     var venues: LiveData<ArrayList<Venue>> = _venues
 
-    fun getVenues() {
+    fun getVenues(latitude: Double, longitude: Double) {
         viewModelScope.launch {
-            repository.getVenueRecommendations()
+            repository.getVenueRecommendations(latitude, longitude)
         }
     }
 

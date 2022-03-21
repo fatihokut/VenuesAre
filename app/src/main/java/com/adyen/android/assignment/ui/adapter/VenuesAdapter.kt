@@ -1,7 +1,6 @@
 package com.adyen.android.assignment.ui.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -21,7 +20,7 @@ class VenuesAdapter() :
 
     private var venueFilterList: List<Venue> = currentList
 
-    // Filters by category name
+    // Filters by venue name and category
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
@@ -30,7 +29,8 @@ class VenuesAdapter() :
                     currentList
                 } else {
                     currentList.filter {
-                        it.categoryName.contains(charSearch, true)
+                        it.categoryName.contains(charSearch, true) ||
+                                it.name.contains(charSearch, true)
                     }
                 }
                 val filterResults = FilterResults()
@@ -65,7 +65,7 @@ class VenuesAdapter() :
         viewHolder.binding.apply {
             venueName.text = venueFilterList[position].name
             category.text = venueFilterList[position].categoryName
-            distance.text = venueFilterList[position].distance.toString()
+            distance.text = formatDistance(venueFilterList[position].distance)
             loadImage(categoryImage, venueFilterList[position].iconUrl)
         }
     }
@@ -79,11 +79,21 @@ class VenuesAdapter() :
         venueFilterList = currentList
     }
 
+    private fun formatDistance(meters: Int): String {
+        meters.let {
+            return if (it >= 1000) {
+                val km = (it / 1000)
+                return "$km km"
+            } else {
+                "$it meters"
+            }
+        }
+    }
+
     companion object {
         @JvmStatic
         @BindingAdapter("categoryIcon")
         fun loadImage(view: ImageView, iconUrl: String?) {
-            Log.d("VenuesAdapter", "ICON URL = $iconUrl")
             if (!iconUrl.isNullOrEmpty()) {
                 Glide.with(view.context)
                     .load(iconUrl)
