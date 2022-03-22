@@ -70,6 +70,10 @@ class VenueListFragment : Fragment() {
             }
         }
 
+        model.isLoading.observe(viewLifecycleOwner) {
+            binding.isLoading = it
+        }
+
         binding.categorySearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false

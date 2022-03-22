@@ -18,9 +18,14 @@ class VenuesViewModel @Inject internal constructor(
     private val _venues: MutableLiveData<ArrayList<Venue>> = repository.venues
     var venues: LiveData<ArrayList<Venue>> = _venues
 
+    private val _isLoading = MutableLiveData(true)
+    var isLoading: LiveData<Boolean> = _isLoading
+
     fun getVenues(latitude: Double, longitude: Double) {
         viewModelScope.launch {
+            _isLoading.value = true
             repository.getVenueRecommendations(latitude, longitude)
+            _isLoading.value = false
         }
     }
 
