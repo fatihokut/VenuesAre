@@ -64,9 +64,9 @@ class VenuesAdapter() :
 
         viewHolder.binding.apply {
             venueName.text = venueFilterList[position].name
-            category.text = venueFilterList[position].categoryName
+            categoryName.text = venueFilterList[position].categoryName
             distance.text = formatDistance(venueFilterList[position].distance)
-            loadImage(categoryImage, venueFilterList[position].iconUrl)
+            iconUrl = venueFilterList[position].iconUrl
         }
     }
 
@@ -77,6 +77,7 @@ class VenuesAdapter() :
         currentList: MutableList<Venue>
     ) {
         venueFilterList = currentList
+        if (previousList != currentList) submitList(venueFilterList)
     }
 
     private fun formatDistance(meters: Int): String {

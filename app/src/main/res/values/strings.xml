@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">VenuesAre</string>
+
+    <string name="permission_location_explanation">Location permission is needed to show nearby places</string>
+    <string name="location_retrieval_error">Error getting last location</string>
+
+
 </resources>
